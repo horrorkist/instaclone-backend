@@ -112,11 +112,11 @@
   "compilerOptions": {
     "rootDirs": ["src"],
     "outDir": "dist",
-    // "lib": ["es2016"],
+    "allowJs": true,
     "target": "ES2020",
     "module": "ESNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "types": ["node"]
-  }
+    "moduleResolution": "Node",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts"]
 }
