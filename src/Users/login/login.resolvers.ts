@@ -4,12 +4,12 @@ import { Resolvers } from "../../types";
 
 const resolvers: Resolvers = {
   Mutation: {
-    login: async (parent, { userName, password }, { client }) => {
+    login: async (parent, { username, password }, { client }) => {
       try {
-        // find user with userName
+        // find user with username
         const user = await client.user.findUnique({
           where: {
-            userName,
+            username,
           },
         });
         if (!user) {

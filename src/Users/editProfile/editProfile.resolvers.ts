@@ -5,7 +5,7 @@ import { Resolvers } from "../../types.js";
 
 const editProfile: Resolver = async function (
   _,
-  { firstName, lastName, userName, email, password, bio },
+  { firstName, lastName, username, email, password, bio },
   { loggedInUser, client }
 ) {
   let newPassword = null;
@@ -20,7 +20,7 @@ const editProfile: Resolver = async function (
       data: {
         firstName,
         lastName,
-        userName,
+        username,
         email,
         bio,
         ...(newPassword && { password: newPassword }),

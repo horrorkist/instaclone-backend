@@ -6,6 +6,6 @@ export default `#graphql
     }
 
     type Mutation {
-        login(userName: String!, password: String!): LoginResult
+        login(username: String!, password: String!): LoginResult
     }
 `;

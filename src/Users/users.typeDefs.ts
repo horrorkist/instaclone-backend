@@ -1,4 +1,10 @@
 export default `#graphql
+
+    type MutationResponse {
+        ok: Boolean!
+        error: String
+    }
+
     type User {
         id: Int!
         firstName: String!
