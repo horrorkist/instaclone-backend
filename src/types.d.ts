@@ -5,12 +5,18 @@ type Context = {
   client: PrismaClient;
 };
 
+export type QueryResponse = {
+  ok: boolean;
+  error?: string;
+  [key: string]: any;
+};
+
 export type Resolver = (
   parent: any,
   args: any,
   context: Context,
   info: any
-) => any;
+) => Promise<QueryResponse>;
 
 export type Resolvers = {
   [key: string]: {

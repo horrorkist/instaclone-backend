@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import client from "../client.js";
-import { Resolver } from "../types.js";
+import { QueryResponse, Resolver } from "../types.js";
 
 interface Token {
   id: number;
@@ -28,7 +28,7 @@ export async function getUserWithToken(token) {
   }
 }
 
-export function protectedResolver(resolver: Resolver): Resolver {
+export function protectedResolver(resolver: Resolver): any {
   return function (root, args, context, info) {
     // 1. 로그인이 되어있는지 확인한다.
     if (!context.loggedInUser) {

@@ -22,6 +22,7 @@ export default {
         return {
           ok: true,
           following,
+          lastId: following[following.length - 1]?.id,
         };
       } catch (error) {
         return {
