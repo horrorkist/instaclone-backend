@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { protectedResolver } from "../../Users/users.utils";
+import { protectedResolver } from "../../Users/users.utils.js";
 import { Resolver } from "../../types";
 
 const resolverFn: Resolver = async (_, { page }, { client, loggedInUser }) => {
@@ -42,7 +42,7 @@ const resolverFn: Resolver = async (_, { page }, { client, loggedInUser }) => {
 };
 
 export default {
-  Mutation: {
+  Query: {
     getFeed: protectedResolver(resolverFn),
   },
 };

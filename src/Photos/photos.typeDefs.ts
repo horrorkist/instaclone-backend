@@ -8,6 +8,7 @@ export default `#graphql
         updatedAt: String!
         hashtags: [Hashtag]
         likesCount: Int!
+        isMine: Boolean!
     }
 
     type Hashtag {

@@ -26,6 +26,9 @@ export default {
           photoId: id,
         },
       }),
+    isMine: ({ authorId }, _, { loggedInUser }) => {
+      return authorId === loggedInUser?.id;
+    },
   },
 
   Hashtag: {
