@@ -8,6 +8,7 @@ export default `#graphql
         updatedAt: String!
         hashtags: [Hashtag]
         likesCount: Int!
+        commentsCount: Int!
         isMine: Boolean!
     }
 

@@ -1,5 +1,5 @@
 export default `#graphql
     type Mutation {
-        createComment: MutationResponse!
+        createComment(photoId: Int!, payload: String!): MutationResponse!
     }
 `;

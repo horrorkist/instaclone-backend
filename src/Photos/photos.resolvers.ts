@@ -26,6 +26,13 @@ export default {
           photoId: id,
         },
       }),
+    commentsCount: ({ id }, _, { client }) => {
+      return client.comment.count({
+        where: {
+          photoId: id,
+        },
+      });
+    },
     isMine: ({ authorId }, _, { loggedInUser }) => {
       return authorId === loggedInUser?.id;
     },

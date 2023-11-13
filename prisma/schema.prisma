@@ -57,7 +57,7 @@ model Like {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   photoId   Int
-  photo     Photo    @relation(fields: [photoId], references: [id])
+  photo     Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
 
@@ -70,7 +70,7 @@ model Comment {
   updatedAt DateTime @updatedAt
   payload   String   @db.VarChar(255)
   photoId   Int
-  photo     Photo    @relation(fields: [photoId], references: [id])
+  photo     Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
 }
