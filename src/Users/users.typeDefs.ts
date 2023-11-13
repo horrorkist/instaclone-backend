@@ -21,5 +21,6 @@ export default `#graphql
         totalFollowers: Int!
         isFollowing: Boolean!
         isMe: Boolean!
+        photos: [Photo]
     }
 `;

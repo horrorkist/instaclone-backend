@@ -35,5 +35,8 @@ export default {
       });
       return Boolean(exists);
     },
+    photos: ({ id }, _, { client }: { client: PrismaClient }) => {
+      return client.user.findUnique({ where: { id } }).photos();
+    },
   },
 };
