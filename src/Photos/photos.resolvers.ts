@@ -20,6 +20,12 @@ export default {
         },
       });
     },
+    likesCount: ({ id }, _, { client }) =>
+      client.like.count({
+        where: {
+          photoId: id,
+        },
+      }),
   },
 
   Hashtag: {

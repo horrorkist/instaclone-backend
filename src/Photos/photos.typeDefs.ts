@@ -7,6 +7,7 @@ export default `#graphql
         createdAt: String!
         updatedAt: String!
         hashtags: [Hashtag]
+        likesCount: Int!
     }
 
     type Hashtag {
@@ -16,5 +17,12 @@ export default `#graphql
         createdAt: String!
         updatedAt: String!
         totalPhotosCount: Int!
+    }
+
+    type Like {
+        id: Int!
+        photo: Photo!
+        createdAt: String!
+        updatedAt: String!
     }
 `;
