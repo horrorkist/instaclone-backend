@@ -1,17 +1,85 @@
 import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
 import { schema } from "./schema.js";
 import { getUserWithToken } from "./Users/users.utils.js";
 import client from "./client.js";
+import express from "express";
+import http from "http";
+import cors from "cors";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { expressMiddleware } from "@apollo/server/express4";
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/lib/use/ws";
 
-const server = new ApolloServer({ schema });
+interface MyContext {
+  loggedInUser: any;
+  client: any;
+}
 
-startStandaloneServer(server, {
-  listen: { port: Number(process.env.PORT || 4000) },
-  context: async ({ req }) => ({
-    loggedInUser: await getUserWithToken(req.headers.token),
-    client,
-  }),
-}).then(({ url }) => {
-  console.log("Server ready at: " + url);
+const app = express();
+const httpServer = http.createServer(app);
+
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/",
 });
+
+const serverCleanup = useServer(
+  {
+    schema,
+    onConnect: async (ctx) => {
+      const {
+        connectionParams: { token },
+      } = ctx;
+      if (!token) {
+        throw new Error("Token missing.");
+      }
+    },
+    context: async (ctx) => {
+      const {
+        connectionParams: { token },
+      } = ctx;
+      const loggedInUser = await getUserWithToken(token);
+      return {
+        loggedInUser: loggedInUser,
+      };
+    },
+  },
+  wsServer
+);
+
+const server = new ApolloServer({
+  schema,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ],
+});
+
+await server.start();
+
+app.use(
+  "/",
+  cors<cors.CorsRequest>(),
+  express.json(),
+  expressMiddleware(server, {
+    context: async ({ req }) => {
+      return {
+        loggedInUser: await getUserWithToken(req.headers.token as string),
+        client,
+      };
+    },
+  })
+);
+
+await new Promise<void>((resolve) =>
+  httpServer.listen({ port: 4000 }, resolve)
+);
+console.log(`🚀 Server ready at http://localhost:4000/`);

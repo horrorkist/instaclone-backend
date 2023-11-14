@@ -14,7 +14,7 @@ export async function getUserWithToken(token) {
       return null;
     }
     // 2. 토큰을 해독한다.
-    const { id } = jwt.verify(token, process.env.SECRET_KEY) as Token;
+    const { id } = (await jwt.verify(token, process.env.SECRET_KEY)) as Token;
     // 3. 해독한 토큰을 통해 유저를 찾는다.
     const user = await client.user.findUnique({ where: { id } });
     // 4. 유저가 존재하지 않으면 에러를 던진다.
