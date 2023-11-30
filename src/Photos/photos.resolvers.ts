@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 
 export default {
   Photo: {
@@ -35,6 +35,29 @@ export default {
     },
     isMine: ({ authorId }, _, { loggedInUser }) => {
       return authorId === loggedInUser?.id;
+    },
+    isLiked: async (
+      { id },
+      _,
+      { loggedInUser, client }: { loggedInUser: User; client: PrismaClient }
+    ) => {
+      if (!loggedInUser) {
+        return false;
+      }
+
+      const ok = await client.like.findUnique({
+        where: {
+          photoId_authorId: {
+            photoId: id,
+            authorId: loggedInUser.id,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      return Boolean(ok);
     },
   },
 

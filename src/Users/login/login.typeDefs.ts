@@ -3,9 +3,11 @@ export default `#graphql
         ok: Boolean!
         token: String
         error: String
+        username: String
+        avatar: String
     }
 
     type Mutation {
-        login(username: String!, password: String!): LoginResult
+        login(username: String!, password: String!): LoginResult!
     }
 `;

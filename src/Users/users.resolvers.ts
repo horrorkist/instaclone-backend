@@ -2,6 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import { User } from "@prisma/client";
 export default {
   User: {
+    totalPhotos: ({ id }, _, { client }: { client: PrismaClient }) => {
+      return client.photo.count({
+        where: {
+          authorId: id,
+        },
+      });
+    },
     totalFollowing: ({ id }, _, { client }: { client: PrismaClient }) =>
       client.user.count({
         where: {

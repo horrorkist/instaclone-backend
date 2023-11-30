@@ -24,7 +24,7 @@ const resolverFn: Resolver = async (
             id: loggedInUser.id,
           },
         },
-        ...(hashtagsObj.length && {
+        ...(hashtagsObj?.length && {
           hashtags: {
             connectOrCreate: hashtagsObj,
           },

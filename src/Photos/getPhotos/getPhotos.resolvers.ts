@@ -1,19 +1,22 @@
 import { PrismaClient } from "@prisma/client";
+import client from "../../client";
 
 export default {
   Query: {
-    getPhotoComments: async (
+    getPhotos: async (
       _,
-      { id, skip },
+      { username, page },
       { client }: { client: PrismaClient }
     ) => {
       try {
-        const comments = await client.comment.findMany({
+        const photos = await client.photo.findMany({
           where: {
-            photoId: id,
+            author: {
+              username,
+            },
           },
-          take: 10,
-          skip,
+          take: 15,
+          skip: (page - 1) * 15,
           orderBy: {
             createdAt: "desc",
           },
@@ -21,13 +24,12 @@ export default {
 
         return {
           ok: true,
-          comments,
+          photos,
         };
-      } catch (error) {
-        console.log(error);
+      } catch {
         return {
           ok: false,
-          error: "Cannot get comments",
+          error: "Can't get photos.",
         };
       }
     },

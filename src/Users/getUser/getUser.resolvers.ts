@@ -5,8 +5,25 @@ const resolvers: Resolvers = {
     getUserByUserName: async (parent, { username }, { client }) => {
       const user = await client.user.findUnique({
         where: { username },
-        include: { following: true, followers: true },
+        include: {
+          following: {
+            select: {
+              avatar: true,
+              username: true,
+              bio: true,
+            },
+          },
+          followers: {
+            select: {
+              avatar: true,
+              username: true,
+              bio: true,
+            },
+          },
+        },
       });
+
+      console.log("asdf: ", user);
 
       if (!user) {
         return {

@@ -10,6 +10,7 @@ export default `#graphql
         likesCount: Int!
         commentsCount: Int!
         isMine: Boolean!
+        isLiked: Boolean!
     }
 
     type Hashtag {

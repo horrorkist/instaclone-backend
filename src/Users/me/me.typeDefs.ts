@@ -1,12 +1,12 @@
 export default `#graphql
 
-    type GetPhotoResponse {
+    type MeResponse {
         ok: Boolean!
+        me: User
         error: String
-        photo: Photo
     }
 
     type Query {
-        getPhoto(id: Int!): GetPhotoResponse!
+        me: MeResponse!
     }
 `;

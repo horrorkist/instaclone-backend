@@ -25,6 +25,8 @@ const resolvers: Resolvers = {
         return {
           ok: true,
           token,
+          username: user.username,
+          avatar: user.avatar,
         };
       } catch (e) {
         return {

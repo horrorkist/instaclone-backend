@@ -9,6 +9,7 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import { expressMiddleware } from "@apollo/server/express4";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
+import logger from "morgan";
 
 interface MyContext {
   loggedInUser: any;
@@ -16,11 +17,12 @@ interface MyContext {
 }
 
 const app = express();
+app.use(logger("dev"));
 const httpServer = http.createServer(app);
 
 const wsServer = new WebSocketServer({
   server: httpServer,
-  path: "/",
+  path: "/graphql",
 });
 
 const serverCleanup = useServer(

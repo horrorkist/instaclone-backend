@@ -5,16 +5,20 @@ const client = new PrismaClient();
 
 async function main() {
   for (let i = 0; i < 100; i++) {
-    await client.user.create({
+    await client.comment.create({
       data: {
-        username: `user${i + 1}`,
-        firstName: `user${i + 1}`,
-        lastName: `user${i + 1}`,
-        email: `user${i + 1}`,
-        password: await bcrypt.hash("1234", 10),
-        following: {
+        payload:
+          i % 2 === 0
+            ? `Comment ${i}`
+            : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima eius a molestiae consequatur nisi deserunt quam nesciunt sit enim dolorum non explicabo amet omnis perferendis, nostrum quia, eveniet illo? Autem?",
+        author: {
           connect: {
-            username: "horrorkist",
+            id: i % 2 === 0 ? 3 : 4,
+          },
+        },
+        photo: {
+          connect: {
+            id: 117,
           },
         },
       },

@@ -20,7 +20,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   bio       String?
-  image     String?
+  avatar    String?
 
   followers User[] @relation("FollowRelation")
   following User[] @relation("FollowRelation")
@@ -93,5 +93,5 @@ model Message {
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
   roomId    Int
-  room      Room     @relation(fields: [roomId], references: [id])
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }

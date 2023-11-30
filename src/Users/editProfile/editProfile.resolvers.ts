@@ -2,10 +2,12 @@ import { Resolver } from "./../../types.d";
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils.js";
 import { Resolvers } from "../../types.js";
+import { PrismaClient, User } from "@prisma/client";
+import { deleteCloudflareImage, getUploadUrl } from "../../api/api.js";
 
 const editProfile: Resolver = async function (
   _,
-  { firstName, lastName, username, email, password, bio },
+  { firstName, lastName, username, email, password, bio, avatar },
   { loggedInUser, client }
 ) {
   let newPassword = null;
@@ -13,6 +15,9 @@ const editProfile: Resolver = async function (
     newPassword = await bcrypt.hash(password, 10);
   }
   try {
+    if (avatar) {
+      deleteCloudflareImage(loggedInUser.avatar);
+    }
     await client.user.update({
       where: {
         id: loggedInUser.id,
@@ -23,6 +28,7 @@ const editProfile: Resolver = async function (
         username,
         email,
         bio,
+        avatar,
         ...(newPassword && { password: newPassword }),
       },
     });
@@ -38,7 +44,15 @@ const editProfile: Resolver = async function (
 };
 
 const resolvers: Resolvers = {
-  Query: {},
+  Query: {
+    getUploadUrl: protectedResolver(
+      async (_, __, { loggedInUser }: { loggedInUser: User }) => {
+        const uploadUrl = await getUploadUrl();
+
+        return uploadUrl;
+      }
+    ),
+  },
 
   Mutation: {
     editProfile: protectedResolver(editProfile),

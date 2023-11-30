@@ -8,6 +8,11 @@ export default `#graphql
             email: String
             password: String
             bio: String
+            avatar: String
         ): MutationResponse!
+    }
+
+    type Query {
+        getUploadUrl: String!
     }
 `;

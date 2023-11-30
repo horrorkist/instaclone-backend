@@ -20,7 +20,7 @@ const resolverFn: Resolver = async (
       error: "Photo not found.",
     };
   }
-  await client.comment.create({
+  const comment = await client.comment.create({
     data: {
       payload,
       photo: {
@@ -37,6 +37,7 @@ const resolverFn: Resolver = async (
   });
   return {
     ok: true,
+    comment,
   };
 };
 

@@ -11,6 +11,7 @@ export default `#graphql
         avatar: String
         following: [User]
         followers: [User]
+        totalPhotos: Int!
         totalFollowing: Int!
         totalFollowers: Int!
         isFollowing: Boolean!

@@ -15,5 +15,6 @@ export default `#graphql
         createdAt: String!
         updatedAt: String!
         unreadMessagesCount: Int!
+        lastMessage: Message
     }
 `;

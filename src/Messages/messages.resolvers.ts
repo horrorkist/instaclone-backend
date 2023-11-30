@@ -22,6 +22,16 @@ export default {
         },
       });
     },
+    lastMessage: ({ id }, _) => {
+      return client.message.findFirst({
+        where: {
+          roomId: id,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    },
     unreadMessagesCount: () => 10,
   },
 };

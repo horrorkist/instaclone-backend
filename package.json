@@ -26,6 +26,7 @@
     "@prisma/client": "^5.5.2",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.5",
+    "@types/morgan": "^1.9.9",
     "aws-sdk": "^2.1495.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -34,6 +35,7 @@
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.14.2",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "ws": "^8.14.2"
   },
   "type": "module",

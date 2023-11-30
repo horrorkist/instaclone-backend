@@ -5,24 +5,24 @@ import { Resolver } from "../../types";
 const resolverFn: Resolver = async (_, { page }, { client, loggedInUser }) => {
   try {
     const photos = await client.photo.findMany({
-      where: {
-        OR: [
-          {
-            author: {
-              followers: {
-                some: {
-                  id: loggedInUser.id,
-                },
-              },
-            },
-          },
-          {
-            authorId: loggedInUser.id,
-          },
-        ],
-      },
-      skip: (page - 1) * 20,
-      take: 20,
+      // where: {
+      //   OR: [
+      //     {
+      //       author: {
+      //         followers: {
+      //           some: {
+      //             id: loggedInUser.id,
+      //           },
+      //         },
+      //       },
+      //     },
+      //     {
+      //       authorId: loggedInUser.id,
+      //     },
+      //   ],
+      // },
+      skip: (page - 1) * 10,
+      take: 10,
       orderBy: {
         createdAt: Prisma.SortOrder.desc,
       },

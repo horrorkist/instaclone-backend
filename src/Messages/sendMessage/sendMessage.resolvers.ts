@@ -9,6 +9,7 @@ const resolverFn: Resolver = async (
   { loggedInUser, client }
 ) => {
   let message = null;
+  let responseRoomId = null;
   try {
     if (receiverId && roomId) {
       return {
@@ -32,20 +33,50 @@ const resolverFn: Resolver = async (
         };
       }
 
-      const room = await client.room.create({
-        data: {
-          users: {
-            connect: [
-              {
-                id: receiverId,
+      let shouldPublishCreateRoom = false;
+      let room = await client.room.findFirst({
+        where: {
+          AND: [
+            {
+              users: {
+                some: {
+                  id: receiverId,
+                },
               },
-              {
-                id: loggedInUser.id,
+            },
+            {
+              users: {
+                some: {
+                  id: loggedInUser.id,
+                },
               },
-            ],
-          },
+            },
+          ],
+        },
+        select: {
+          id: true,
         },
       });
+
+      if (!room) {
+        shouldPublishCreateRoom = true;
+        room = await client.room.create({
+          data: {
+            users: {
+              connect: [
+                {
+                  id: receiverId,
+                },
+                {
+                  id: loggedInUser.id,
+                },
+              ],
+            },
+          },
+        });
+      }
+
+      responseRoomId = room.id;
 
       message = await client.message.create({
         data: {
@@ -62,6 +93,16 @@ const resolverFn: Resolver = async (
           },
         },
       });
+
+      if (shouldPublishCreateRoom) {
+        //publish
+        pubsub.publish(PubSubEvents.roomCreated, {
+          onRoomCreated: {
+            ...room,
+            users: [receiver, loggedInUser],
+          },
+        });
+      }
     } else if (roomId) {
       const room = await client.room.findUnique({
         where: {
@@ -78,6 +119,8 @@ const resolverFn: Resolver = async (
           error: "Room not found.",
         };
       }
+
+      responseRoomId = room.id;
 
       message = await client.message.create({
         data: {
@@ -107,6 +150,7 @@ const resolverFn: Resolver = async (
     });
     return {
       ok: true,
+      roomId: responseRoomId,
     };
   } catch (e) {
     console.log(e);

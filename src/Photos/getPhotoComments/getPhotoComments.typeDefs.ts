@@ -5,6 +5,6 @@ export default `#graphql
         comments: [Comment]
     }
     type Query {
-        getPhotoComments(id: Int!, page: Int!): GetCommentsResponse!
+        getPhotoComments(id: Int!, skip: Int!): GetCommentsResponse!
     }
 `;

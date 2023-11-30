@@ -1,5 +1,12 @@
 export default `#graphql
+
+    type GetUserByUserNameResponse {
+        ok: Boolean!
+        user: User
+        error: String
+    }
+
     type Query {
-        getUserByUserName(username: String!): User
+        getUserByUserName(username: String!): GetUserByUserNameResponse!
     }
 `;

@@ -6,6 +6,6 @@ export default `#graphql
         lastId: Int
     }
     type Query {
-        getFollowing(username: String!, lastId: Int!): GetFollowingResult!
+        getFollowing(username: String!, lastId: Int): GetFollowingResult!
     }
 `;

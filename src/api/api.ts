@@ -10,12 +10,26 @@ export async function getUploadUrl() {
     },
   });
 
-  console.log(
-    process.env.CLOUDFLARE_ACCOUNT_ID,
-    process.env.CLOUDFLARE_API_TOKEN
-  );
+  const data = await response.json();
+
+  console.log(data);
+
+  return data.result.uploadURL;
+}
+
+export async function deleteCloudflareImage(id: string) {
+  const url = `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/${id}`;
+
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
+    },
+  });
 
   const data = await response.json();
 
-  return data.result.uploadURL;
+  console.log(data);
+
+  return data;
 }

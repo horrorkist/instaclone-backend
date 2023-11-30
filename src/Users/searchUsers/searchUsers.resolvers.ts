@@ -15,9 +15,7 @@ export default {
             },
           },
           orderBy: {
-            followers: {
-              _count: "desc",
-            },
+            createdAt: "desc",
           },
           take: 5,
           skip: lastId ? 1 : 0,
