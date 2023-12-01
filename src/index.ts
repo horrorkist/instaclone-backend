@@ -80,8 +80,6 @@ await server.start();
 //   next();
 // });
 
-app.use(cors());
-
 app.use(
   "/",
   cors<cors.CorsRequest>(),
