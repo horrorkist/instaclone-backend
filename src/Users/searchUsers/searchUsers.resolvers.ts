@@ -11,7 +11,6 @@ export default {
           where: {
             username: {
               contains: keyword,
-              mode: "insensitive",
             },
           },
           orderBy: {
