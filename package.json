@@ -28,6 +28,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
+    "apollo-server": "^3.13.0",
     "aws-sdk": "^2.1495.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
