@@ -80,11 +80,11 @@ await server.start();
 //   next();
 // });
 
+app.use(cors());
+
 app.use(
-  "/*",
-  cors<cors.CorsRequest>({
-    origin: "*",
-  }),
+  "/",
+  cors<cors.CorsRequest>(),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req }) => {
