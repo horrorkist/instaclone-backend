@@ -69,7 +69,10 @@ await server.start();
 
 app.use(
   "/",
-  cors<cors.CorsRequest>(),
+  cors<cors.CorsRequest>({
+    origin: "https://web-instaclone-web-57lz2alpn2fku5.sel4.cloudtype.app/",
+    credentials: true,
+  }),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req }) => {
