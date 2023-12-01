@@ -16,7 +16,7 @@ export default {
           },
         });
         if (existingUser) {
-          throw new Error("This username/password is already taken.");
+          throw new Error("This username/email is already taken.");
         }
         // hash password
         const hashedPassword = bcrypt.hashSync(password, 10);
