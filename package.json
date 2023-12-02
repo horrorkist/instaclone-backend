@@ -6,7 +6,7 @@
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js",
     "dev": "nodemon --exec node --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts --ext ts,js",
-    "build": "prisma generate && prisma migrate dev --name init --preview-feature && npm run compile"
+    "build": "prisma generate && prisma migrate deploy && npm run compile"
   },
   "repository": {
     "type": "git",
