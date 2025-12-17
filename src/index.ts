@@ -10,6 +10,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import logger from "morgan";
+import "dotenv/config";
 
 interface MyContext {
   loggedInUser: any;
@@ -22,6 +23,7 @@ const httpServer = http.createServer(app);
 
 const wsServer = new WebSocketServer({
   server: httpServer,
+  path: "/graphql",
 });
 
 const serverCleanup = useServer(
@@ -48,9 +50,12 @@ const serverCleanup = useServer(
   wsServer
 );
 
+const isProd = process.env.NODE_ENV === "production";
+const allowIntrospection =
+  process.env.ALLOW_INTROSPECTION === "true" || !isProd;
+
 const server = new ApolloServer({
   schema,
-
   plugins: [
     ApolloServerPluginDrainHttpServer({ httpServer }),
     {
@@ -63,6 +68,7 @@ const server = new ApolloServer({
       },
     },
   ],
+  introspection: allowIntrospection,
 });
 
 await server.start();
@@ -81,9 +87,14 @@ await server.start();
 // });
 
 app.use(
-  "/",
+  "/graphql",
   cors<cors.CorsRequest>({
-    origin: "*",
+    origin: [
+      "http://localhost:5173",
+      "https://app.horrorkist.com",
+      "https://horrorkist.com",
+    ],
+    credentials: true,
   }),
   express.json(),
   expressMiddleware(server, {
@@ -96,7 +107,9 @@ app.use(
   })
 );
 
+const port = Number(process.env.PORT) || 4000;
+
 await new Promise<void>((resolve) =>
-  httpServer.listen({ port: 4000 }, resolve)
+  httpServer.listen({ port, host: "0,0,0,0" }, resolve)
 );
-console.log(`🚀 Server ready at http://localhost:4000/`);
+console.log(`🚀 Server ready at http://0.0.0.0:${port}/graphql`);
