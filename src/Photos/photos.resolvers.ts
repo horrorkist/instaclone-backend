@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "../generated/prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 
 export default {
   Photo: {

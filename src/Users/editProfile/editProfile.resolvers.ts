@@ -2,7 +2,7 @@ import { Resolver } from "./../../types.d";
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils.js";
 import { Resolvers } from "../../types.js";
-import { PrismaClient, User } from "../../generated/prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { deleteCloudflareImage, getUploadUrl } from "../../api/api.js";
 
 const editProfile: Resolver = async function (

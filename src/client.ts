@@ -1,5 +1,5 @@
 import "dotenv/config"; // ✅ 제일 위에
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const url = process.env.DIRECT_DATABASE_URL ?? process.env.DATABASE_URL;

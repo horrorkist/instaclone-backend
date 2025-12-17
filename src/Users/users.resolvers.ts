@@ -1,5 +1,5 @@
-import { PrismaClient } from "../generated/prisma/client";
-import { User } from "../generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
+import { User } from "@prisma/client";
 export default {
   User: {
     totalPhotos: ({ id }, _, { client }: { client: PrismaClient }) => {
