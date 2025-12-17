@@ -89,24 +89,34 @@ await server.start();
 app.get("/", (_, res) => res.status(200).send("ok"));
 app.head("/", (_, res) => res.sendStatus(200));
 
+const allowedOrigins = new Set([
+  "http://localhost:5173",
+  "https://app.horrorkist.com",
+]);
+
 app.use(
   "/graphql",
   cors<cors.CorsRequest>({
-    origin: [
-      "http://localhost:5173",
-      "https://app.horrorkist.com",
-      "https://horrorkist.com",
-    ],
+    origin: (origin, cb) => {
+      // SSR/서버간 호출은 origin이 없을 수 있음
+      if (!origin) return cb(null, true);
+
+      // Vercel preview 도메인까지 허용하고 싶으면:
+      if (allowedOrigins.has(origin) || origin.endsWith(".vercel.app")) {
+        return cb(null, true);
+      }
+      return cb(new Error(`CORS blocked: ${origin}`), false);
+    },
     credentials: true,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["content-type", "token", "authorization"],
   }),
   express.json(),
   expressMiddleware(server, {
-    context: async ({ req }) => {
-      return {
-        loggedInUser: await getUserWithToken(req.headers.token as string),
-        client,
-      };
-    },
+    context: async ({ req }) => ({
+      loggedInUser: await getUserWithToken(req.headers.token as string),
+      client,
+    }),
   })
 );
 
