@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import client from "../client.js";
+import client from "../client";
 import { QueryResponse, Resolver } from "../types.js";
 
 interface Token {

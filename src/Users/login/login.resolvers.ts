@@ -29,6 +29,7 @@ const resolvers: Resolvers = {
           avatar: user.avatar,
         };
       } catch (e) {
+        console.error(e);
         return {
           ok: false,
           error: e.message,

@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-import client from "../../client";
+import { PrismaClient } from "../../generated/prisma/client";
 
 export default {
   Query: {

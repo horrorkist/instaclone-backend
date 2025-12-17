@@ -1,5 +1,7 @@
 // get upload url from cloudflare images
 
+import "dotenv/config";
+
 export async function getUploadUrl() {
   const url = `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload `;
 
