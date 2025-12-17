@@ -86,6 +86,9 @@ await server.start();
 //   next();
 // });
 
+app.get("/", (_, res) => res.status(200).send("ok"));
+app.head("/", (_, res) => res.sendStatus(200));
+
 app.use(
   "/graphql",
   cors<cors.CorsRequest>({
@@ -109,7 +112,5 @@ app.use(
 
 const port = Number(process.env.PORT) || 4000;
 
-await new Promise<void>((resolve) =>
-  httpServer.listen({ port, host: "0,0,0,0" }, resolve)
-);
+await new Promise<void>((resolve) => httpServer.listen({ port }, resolve));
 console.log(`🚀 Server ready at http://0.0.0.0:${port}/graphql`);
